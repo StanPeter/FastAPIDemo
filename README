@@ -1,0 +1,22 @@
+*INSTRUCTIONS*
+
+0. make sure you have "python" and "venv" installed on your maschine
+
+1. create local environment running "python -m venv env"
+
+2. activate it using ". ./env/Scripts/activate" (might differ for Unix system)
+
+3. install dependencies listed in "requirements.txt" using command "pip install -r requirements.txt"
+
+4. you can verify installation using "pip list"
+
+5. run the project using "uvicorn main:app --reload"
+
+*TIPS*
+# The command uvicorn main:app refers to:
+    main: the file main.py (the Python "module").
+    app: the object created inside of main.py with the line app = FastAPI().
+    --reload: make the server restart after code changes. Only do this for development.
+
+# you can visit http://127.0.0.1:8000/docs to see swagger API structure
+
