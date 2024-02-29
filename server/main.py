@@ -80,7 +80,37 @@ async def get_soldier(soldier_id: int, db: db_dependency):
 async def modify_soldier(
     soldier_id: int, db: db_dependency, soldier: schemas.SoldierBaseSchema
 ):
-    db.merge
+    # find soldier
+    db_soldier = (
+        db.query(models.Soldier).filter(models.Soldier.id == soldier_id).first()
+    )
+
+    # Update the soldier's fields if provided in the request
+    update_data = soldier.model_dump(exclude_unset=True)
+    for field, value in update_data.items():
+        setattr(db_soldier, field, value)
+
+    # if soldier.email:
+    #     db_soldier.email = soldier.email
+    # if soldier.name:
+    #     db_soldier.name = soldier.name
+
+    db.commit()
+    db.refresh(db_soldier)
+    return db_soldier
+
+
+@app.delete("/soldier/{soldier_id}", response_model=bool)
+async def delete_soldier(soldier_id: int, db: db_dependency):
+    # find soldier
+    db_soldier = (
+        db.query(models.Soldier).filter(models.Soldier.id == soldier_id).first()
+    )
+
+    db.delete(db_soldier)
+
+    db.commit()
+    return True
 
 
 # def get_soldier(db: Session, soldier_id: int):
